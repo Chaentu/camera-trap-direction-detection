@@ -167,6 +167,7 @@ nor the trajectory fallback finds a clear movement.
 - Works with any camera resolution — the grid adapts to each image's width.
 - `data/` and `results/` are git-ignored; the tool ships with no data.
 - Detection is the slow part; on CPU expect roughly a second or more per image.
+- The repository contains the reusable production workflow. The validation notebooks used for the thesis evaluation are not included, as they depend on non-public ground-truth files.
 
 ## License
 
