@@ -22,13 +22,15 @@ def get_exif_datetime(path):
     try:
         with Image.open(path) as im:
             exif = im.getexif()
-            for tag in ("DateTimeOriginal", "DateTime", "DateTimeDigitized"):
-                tid = EXIF_IDS.get(tag)
-                if tid and tid in exif:
-                    val = exif[tid]
-                    if isinstance(val, bytes):
-                        val = val.decode(errors="ignore")
-                    return datetime.strptime(val.strip(), "%Y:%m:%d %H:%M:%S")
+            sub = exif.get_ifd(ExifTags.IFD.Exif)  # DateTimeOriginal lives in the Exif sub-IFD
+            for source in (sub, exif):
+                for tag in ("DateTimeOriginal", "DateTimeDigitized", "DateTime"):
+                    tid = EXIF_IDS.get(tag)
+                    if tid and tid in source:
+                        val = source[tid]
+                        if isinstance(val, bytes):
+                            val = val.decode(errors="ignore")
+                        return datetime.strptime(val.strip(), "%Y:%m:%d %H:%M:%S")
     except Exception:
         pass
     return datetime.fromtimestamp(path.stat().st_mtime)
