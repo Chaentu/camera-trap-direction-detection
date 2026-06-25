@@ -1,0 +1,17 @@
+# user data and outputs -- never commit
+data/*
+!data/.gitkeep
+results/*
+!results/.gitkeep
+
+# caches, model weights, local config
+*.pkl
+*.pt
+config.json
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/

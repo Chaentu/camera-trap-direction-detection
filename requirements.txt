@@ -1,0 +1,17 @@
+# Core
+numpy>=1.24
+pandas>=2.0
+Pillow>=10.0
+opencv-python>=4.8
+openpyxl>=3.1
+tqdm>=4.66
+
+# Detection (at least one of the two is required)
+# MegaDetector V6 via PytorchWildlife (recommended, primary detector)
+PytorchWildlife>=1.0
+# YOLOv8n fallback / animal subclass refinement
+ultralytics>=8.0
+# PyTorch is pulled in by the above; install the build matching your system
+# (CPU or CUDA) from https://pytorch.org if needed:
+torch>=2.0
+torchvision>=0.15
