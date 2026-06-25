@@ -9,8 +9,7 @@ The pipeline:
 
 1. Reads images from a folder and extracts capture times from the EXIF headers.
 2. Groups images into movement sequences (a new sequence starts after a time gap).
-3. Detects objects with **MegaDetector V6** (via PytorchWildlife), with a
-   **YOLOv8n** fallback that also refines animals into dog / horse / wildlife.
+3. Detects objects with **MegaDetector V6** (via PytorchWildlife). **YOLOv8n** refines animal detections into dog / horse / wildlife and acts as a fallback if MegaDetector is unavailable.
 4. Classifies the activity of each sequence from per-frame detection counts.
 5. Estimates the direction with a **virtual grid** (a tripwire grid across the
    frame) and a centroid-trajectory fallback.
