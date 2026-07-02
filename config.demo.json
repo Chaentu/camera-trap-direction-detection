@@ -1,0 +1,23 @@
+{
+  "sites": {
+    "demo": {
+      "image_folders": ["data/demo"],
+      "calibration": {
+        "axis": "x",
+        "in_sign": "+",
+        "in_label": "in",
+        "out_label": "out"
+      }
+    }
+  },
+  "output_dir": "results",
+  "daytime_hours": null,
+  "sequence_gap_seconds": 120,
+  "detect_conf": 0.20,
+  "count_conf": 0.40,
+  "grid_cols": 5,
+  "grid_rows": 3,
+  "min_move_px": 15.0,
+  "speed_slow_px_s": 80,
+  "speed_fast_px_s": 300
+}

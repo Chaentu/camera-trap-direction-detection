@@ -20,8 +20,8 @@ The pipeline:
 ## 1. Installation
 
 ```bash
-git clone <your-repo-url>
-cd <your-repo>
+git clone https://github.com/Chaentu/camera-trap-direction-detection.git
+cd camera-trap-direction-detection
 
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
@@ -36,7 +36,27 @@ pip install -r requirements.txt
 
 ---
 
-## 2. Add your images
+## 2. Quick demo
+
+The repository ships with a small demo sequence in `data/demo/` — one trigger
+event of a hiker walking away from the camera (3 frames within 2 seconds) —
+and a ready-made `config.demo.json`, so you can run the pipeline immediately,
+without adding any data of your own:
+
+```bash
+python run_pipeline.py --config config.demo.json
+```
+
+The **first** run downloads the MegaDetector weights (a few hundred MB, one
+time). When it finishes, open `results/demo_sequences.xlsx`: it should contain
+one sequence classified as `on_foot` with direction `in` (with this
+calibration, `in` is the direction away from the camera along the trail).
+
+To run on your own images instead, follow steps 3–5 below.
+
+---
+
+## 3. Add your images
 
 Put your camera-trap JPEGs into a folder under `data/`, for example:
 
@@ -54,7 +74,7 @@ Only `.jpg` / `.jpeg` files are read. Capture times come from the EXIF header
 
 ---
 
-## 3. Configure
+## 4. Configure
 
 Copy the example config and edit it:
 
@@ -108,11 +128,12 @@ just flip `in_sign` (or swap the two labels).
 
 ---
 
-## 4. Run
+## 5. Run
 
 ```bash
 python run_pipeline.py                 # all sites in config.json
 python run_pipeline.py --site my_site  # only one site
+python run_pipeline.py --config config.demo.json  # the bundled demo
 ```
 
 Detection results are cached as `results/<site>_cache.pkl`, so a second run
@@ -120,7 +141,7 @@ skips detection. **Delete that file to re-detect** (e.g. after adding images).
 
 ---
 
-## 5. Output
+## 6. Output
 
 `results/<site>_sequences.xlsx` (and `.csv`), one row per sequence:
 
@@ -149,6 +170,7 @@ nor the trajectory fallback finds a clear movement.
 .
 ├── run_pipeline.py          # command-line entry point
 ├── config.example.json      # copy to config.json and edit
+├── config.demo.json         # ready-made config for the bundled demo
 ├── requirements.txt
 ├── pathusage/
 │   ├── config.py            # config loading + defaults
@@ -157,14 +179,17 @@ nor the trajectory fallback finds a clear movement.
 │   ├── classification.py    # activity classification
 │   ├── direction.py         # virtual grid + trajectory fallback
 │   └── pipeline.py          # orchestration + Excel/CSV output
-├── data/                    # your images go here (not tracked by git)
+├── data/
+│   └── demo/                # small demo sequence (tracked, for the quick demo)
 └── results/                 # output Excel/CSV go here (not tracked by git)
 ```
 
 ## Notes
 
 - Works with any camera resolution — the grid adapts to each image's width.
-- `data/` and `results/` are git-ignored; the tool ships with no data.
+- The repository ships with only the small demo sequence in `data/demo/`. Any
+  other images you add under `data/`, and everything in `results/`, are
+  git-ignored.
 - Detection is the slow part; on CPU expect roughly a second or more per image.
 - The repository contains the reusable production workflow. The validation notebooks used for the thesis evaluation are not included, as they depend on non-public ground-truth files.
 
